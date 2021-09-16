@@ -1,0 +1,10 @@
+   abcd
+aaaa...
+...dddd
+aaa
+ddddd
+acdb
+abcd
+   cdba
+bcda
+adcb

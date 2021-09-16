@@ -1,0 +1,49 @@
+# depslib dependency file v1.0
+1631799351 source:c:\cpp.projects\evgeniyonegin\main.cpp
+	<cstdio>
+	<cstdlib>
+	<fstream>
+	<iostream>
+	<algorithm>
+	"string_sorting.h"
+	"FILE_working.h"
+	"string_sorting_comparator_test.h"
+
+1630945239 c:\cpp.projects\evgeniyonegin\onegin.h
+
+1631792895 c:\cpp.projects\evgeniyonegin\string_sorting.h
+
+1631795088 c:\cpp.projects\evgeniyonegin\file_working.h
+	<cstdio>
+	<cstdlib>
+	<fstream>
+	<iostream>
+	<algorithm>
+
+1631560567 source:c:\cpp.projects\evgeniyonegin\comparator_test.cpp
+	<cstdio>
+	<cstdlib>
+	<fstream>
+	<iostream>
+	<algorithm>
+	"string_sorting.h"
+	"FILE_working.h"
+
+1631795061 source:c:\cpp.projects\evgeniyonegin\file_working.cpp
+	"FILE_working.h"
+
+1631793323 source:c:\cpp.projects\evgeniyonegin\string_sorting.cpp
+	<stdio.h>
+
+1631791068 source:c:\cpp.projects\evgeniyonegin\string_sorting_comparator_test.cpp
+	<cstdio>
+	<cstdlib>
+	<fstream>
+	<iostream>
+	<algorithm>
+	"string_sorting.h"
+	"FILE_working.h"
+	"string_sorting_comparator_test.h"
+
+1631791068 c:\cpp.projects\evgeniyonegin\string_sorting_comparator_test.h
+
