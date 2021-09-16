@@ -26,9 +26,17 @@ file_working_code allocate_memory (long long number_of_bytes, char** buffer){
     return FILE_ERROR_OK;
 }
 
-void string_shifts_filling(char *text, char ***string_shifts, long long strokinum){
+file_working_code allocate_memory_mas (long long number_of_bytes, char*** buffer){
+    *buffer = (char**) calloc(number_of_bytes, sizeof(char*));
+    if (*buffer == NULL){
+        return FILE_ERROR_NO_MEMORY;
+    }
+    return FILE_ERROR_OK;
+}
 
-    //*string_shifts = (char**) calloc(strokinum + 1, sizeof(char*));
+file_working_code string_shifts_filling(char *text, char ***string_shifts, long long strokinum){
+
+    allocate_memory_mas(strokinum + 1, string_shifts);
     long long amount_of_strings = 1;
     (*string_shifts)[0] = &text[0];
     for (int i = 0; text[i] != '\0'; i++){

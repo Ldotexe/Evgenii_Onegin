@@ -7,10 +7,9 @@
 #include "FILE_working.h"
 #include "string_sorting_comparator_test.h"
 
-const char* my_error[] = {
-    "1",
-    "2",
-    "3"
+const char* errors_value[] = {
+    "FILE_ERROR_OK",
+    "FILE_ERROR_NO_MEMORY"
 };
 
 #define NEWLINE '\n'
@@ -27,7 +26,6 @@ int main(int argc, const char** argv)
         return 0;
     }*/
 
-    // FILE *readfile = fopen("EvgeniiOnegin.txt", "r");
     FILE *readfile = fopen("Gamlet.test.txt", "r");
     if (readfile == 0){
         printf("There is no text to work with it\n");
@@ -38,27 +36,24 @@ int main(int argc, const char** argv)
 
     char *text = 0;
 
-    text_read(&text, filesize, readfile);
-    if (text == 0){
-        printf("Not enough memory to work");
-        return 0;
+    file_working_code code_error = FILE_ERROR_OK;
+
+    code_error = text_read(&text, filesize, readfile);
+    if (code_error != FILE_ERROR_OK){
+        printf("%s", errors_value[code_error]);
     }
+
     long long stringnumber = symbol_in_string(text, '\n');
 
-    //char **stringshifts = 0;
-    char **stringshifts = (char**) calloc(stringnumber + 1, sizeof(char*));
+    char **stringshifts = 0;
 
-    if (stringnumber == 0){
-        printf("Not enough memory to work");
-    }
+    code_error = string_shifts_filling(text, &stringshifts, stringnumber);
 
-    string_shifts_filling(text, &stringshifts, stringnumber);
-
-    output(text, stringshifts, stringnumber); // Выводим текст
+    output(text, stringshifts, stringnumber);
     printf("\n");
 
     bubble_sort_beginning(stringshifts, stringnumber);
-    output_beginning(text, stringshifts, stringnumber); // Выводим текст в алфавитном порядке
+    output_beginning(text, stringshifts, stringnumber);
     printf("\n");
 
     reverse_text(stringshifts, stringnumber);
@@ -77,17 +72,3 @@ int main(int argc, const char** argv)
 }
 
 //--------------------------------------------------------------------------------------------------------------
-
-/*void string_shifts_filling(char *text, char ***string_shifts, long long strokinum){
-
-    //*string_shifts = (char**) calloc(strokinum + 1, sizeof(char*));
-    long long amount_of_strings = 1;
-    (*string_shifts)[0] = &text[0];
-    for (int i = 0; text[i] != '\0'; i++){
-        if (text[i] == '\n'){
-            text[i] = '\0';
-            (*string_shifts)[amount_of_strings] = &text [i + 1];
-            amount_of_strings++;
-        }
-    }
-}*/
