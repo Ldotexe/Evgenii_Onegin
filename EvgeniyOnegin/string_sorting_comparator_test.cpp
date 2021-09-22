@@ -43,4 +43,3 @@ char test_comparator(){
     }
     return 1;
 }
-

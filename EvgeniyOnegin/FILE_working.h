@@ -15,6 +15,6 @@ file_working_code text_read(char **text, long long filesize, FILE* readfile);
 
 file_working_code allocate_memory(long long number_of_bytes, char** buffer);
 
-void string_shifts_filling(char *text, char ***stringshifts, long long strokinum);
+file_working_code string_shifts_filling(char *text, char ***stringshifts, long long strokinum);
 
-#endif// FILE_WORKING_H_INCLUDED
+#endif// FILE_WORKING_H_INCLUDE
