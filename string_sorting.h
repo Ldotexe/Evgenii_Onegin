@@ -3,7 +3,7 @@
 
 enum sorter_error_code{
     SORTER_ERROR_OK,
-    SORTER_ERROR_NO_MEMORY
+    SORTER_ERROR_NO_POINTER
 };
 
 #define CREATE_SWAP_DECLARATION(type) void swap(type * first, type * second)
@@ -14,7 +14,7 @@ enum sorter_error_code{
  * @param text - buffer start pointer
  */
 
-void quick_sortalf (char *text, char *m, int l, int r);
+sorter_error_code quick_sortalf (char *text, char *m, int l, int r);
 
 /**
  * Function that finds the first symbol which is a letter
@@ -23,25 +23,6 @@ void quick_sortalf (char *text, char *m, int l, int r);
 */
 
 char* from_alpha_string(char *string);
-
-
-/**
- * Comparator for strings
- * compares symbol by symbol until meet different or run out of symbols in one of strings
- * Return positive value if first sting is bigger than second else negative (including the case when they are equivalent)
-*/
-
-int comparison_bigger(const char *text, char str, int s1, int s2);
-
-
-/**
- * Comparator for strings
- * compares symbol by symbol until meet different or run out of symbols in one of strings
- * Return positive value if first sting is less than second else negative (including the case when they are equivalent)
-*/
-
-int comparison_less(char *text, char str);
-
 
 /**
  * Comparator for strings from the first letter for each string
@@ -67,7 +48,7 @@ int comparison_less_beginning(char *text, char *str);
  * And integer strokinum to execute the exact number of operations
 */
 
-void output(char *text, char* stroki[], int strokinum);
+sorter_error_code output(char* stringshifts[], int stringnumber);
 
 
 /**
@@ -76,44 +57,23 @@ void output(char *text, char* stroki[], int strokinum);
  * And integer strokinum to execute the exact number of operations
 */
 
-void output_beginning (char *text, char *stroki[], int strokinum);
+sorter_error_code output_beginning (char *stringshifts[], int stringnumber);
 
+sorter_error_code bubble_sort_beginning(char *stringshifts[], int numberofstrings);
 
-/**
- * Ordinary algorithm of bubble sorting but for strings
- * Uses the strings comparator "comparison_bigger"
- * O(n^2{*m})
-*/
+sorter_error_code quick_sort (char *m[], int l, int r);
 
-void bubble_sort(char *text, char *m, int n);
-
-/**
- * Algorithm for reversing string from the first symbol to the '\n'
- * O(n)
-*/
-
-void bubble_sort_beginning(char *stringshifts[], int numberofstrings);
-
-void reverse_string(char *str);
+sorter_error_code reverse_string(char *str);
 
 /**
  * Algorithm for reversing text string by string
  * Uses the viceversa_string algorithm for each string
 */
 
-void reverse_text(char *str[], int strokinum);
-
-
-/**
- * Not working!!!
- * Basic quick_sort algorithm but for strings
- * Uses the string comparators "comparison_bigger" and "comparison_less"
-*/
-
-void quick_sort (char *m[], int l, int r);
-
+sorter_error_code reverse_text(char *str[], int strokinum);
 
 /**
+ *
  * Finds the number of some symbol in a char array
 */
 
@@ -133,3 +93,41 @@ CREATE_SWAP_DECLARATION(char*);
 #undef CREATE_SWAP_DECLARATION
 
 #endif // ONEGIN_H_INCLUDED
+
+/*
+/**
+ * Comparator for strings
+ * compares symbol by symbol until meet different or run out of symbols in one of strings
+ * Return positive value if first sting is bigger than second else negative (including the case when they are equivalent)
+*/
+
+
+/*int comparison_bigger(char *string1, char *string2);
+
+
+/**
+ * Comparator for strings
+ * compares symbol by symbol until meet different or run out of symbols in one of strings
+ * Return positive value if first sting is less than second else negative (including the case when they are equivalent)
+*/
+
+/*int comparison_less(char *text, char str);*/
+
+/*/**
+ * Not working!!!
+ * Basic quick_sort algorithm but for strings
+ * Uses the string comparators "comparison_bigger" and "comparison_less"
+*/
+
+/*/**
+ * Ordinary algorithm of bubble sorting but for strings
+ * Uses the strings comparator "comparison_bigger"
+ * O(n^2{*m})
+*/
+
+/*sorter_error_code bubble_sort(char *text, char *stringshifts, int stringnumber);
+
+/**
+ * Algorithm for reversing string from the first symbol to the '\n'
+ * O(n)
+*/

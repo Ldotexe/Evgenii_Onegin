@@ -7,22 +7,28 @@
 #include "FILE_working.h"
 #include "string_sorting_comparator_test.h"
 
-const char* errors_value[] = {
-    "FILE_ERROR_OK",
-    "FILE_ERROR_NO_MEMORY"
-};
-
 #define NEWLINE '\n'
 #define NEXTLINE printf("\n");
+
+struct strings{
+    char* pointer;
+    int length;
+};
+
+struct strings_in_line{
+    char* text;
+    struct strings* string;
+};
 
 //-------------------------------------------------------------------------------------------------------------------
 
 int main(int argc, const char** argv)
 {
+    struct strings_in_line line;
     for (int argc_counter = 0; argc_counter < argc; argc_counter++){
         printf("argv[%d] = %s\n", argc_counter, argv[argc_counter]);
     }
-    if(argv[1] == "Test!"){
+    if(argv[1] == "Test!"){ //strcmp
         printf("%s\n", test_comparator() == 0 ? "Test passed: No" : "Test passed: Yes");
         if (test_comparator() == 0){
             return 0;
@@ -30,6 +36,7 @@ int main(int argc, const char** argv)
     }
 
     FILE *readfile = fopen(/*argv[1]*/ "Gamlet.test.txt", "r");
+    //FILE *answer = fopen(/*argv[1]*/ "answer.txt", "w");
     if (readfile == NULL){
         printf("There is no text to work with it\n");
         return 0;
@@ -37,45 +44,43 @@ int main(int argc, const char** argv)
 
     long long filesize = filesizeoftext(readfile);
 
-    char *text = 0;
-
     file_working_code code_error = FILE_ERROR_OK;
 
-    code_error = text_read(&text, filesize, readfile);
+    code_error = text_read(&line.text, filesize, readfile);
     if (code_error != FILE_ERROR_OK){
-        printf("%s\n", errors_value[code_error]);
+        printf("%s\n", file_errors_value[code_error]);
         return 0;
     }
 
-    long long stringnumber = symbol_in_string(text, NEWLINE);
+    long long stringnumber = symbol_in_string(line.text, NEWLINE);
 
     char **stringshifts = 0;
 
-    code_error = string_shifts_filling(text, &stringshifts, stringnumber);
+    code_error = string_shifts_filling(line.text, &stringshifts, stringnumber);
     if (code_error != FILE_ERROR_OK){
-        printf("%s\n", errors_value[code_error]);
+        printf("%s\n", file_errors_value[code_error]);
         return 0;
     }
 
-    output(text, stringshifts, stringnumber);
+    output(stringshifts, stringnumber);
     NEXTLINE
 
     bubble_sort_beginning(stringshifts, stringnumber);
-    output_beginning(text, stringshifts, stringnumber);
+    output_beginning(stringshifts, stringnumber);
     NEXTLINE
 
     reverse_text(stringshifts, stringnumber);
     bubble_sort_beginning(stringshifts, stringnumber);
     reverse_text(stringshifts, stringnumber);
-    output_beginning(text, stringshifts, stringnumber);
+    output_beginning(stringshifts, stringnumber);
     NEXTLINE
 
     quick_sort(stringshifts, 0, stringnumber);
-    output(text, stringshifts, stringnumber);
+    output(stringshifts, stringnumber);
 
-    free(text);
+    free(line.text);
     free(stringshifts);
-
+    //fclose(/*argv[1]*/ "answer.txt", "w");
     return 0;
 }
 

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "string_sorting.h"
 #define CREATE_SWAP(type) \
 void swap(type * first, type * second) { \
     type tmp = *first; \
@@ -13,8 +14,11 @@ CREATE_SWAP(char)
 
 CREATE_SWAP(char*)
 
-void quick_sort (char *array[], int leftpointer, int rightpointer)
+sorter_error_code quick_sort (char *array[], int leftpointer, int rightpointer)
 {
+    if (array == NULL){
+        return SORTER_ERROR_NO_POINTER;
+    }
     int left = leftpointer;
     int right = rightpointer;
     char *pointer = array[leftpointer];
@@ -44,13 +48,18 @@ void quick_sort (char *array[], int leftpointer, int rightpointer)
     if (right > k){
         quick_sort(array, k + 1, right);
     }
+    return SORTER_ERROR_OK;
 }
 
-void output(char *text, char *stroki[], int strokinum)
+sorter_error_code output(char *stringshifts[], int stringnumber)
 {
-    for (int i = 0; i <= strokinum; i++){
-        printf("%s\n", stroki[i]);
+    if(stringshifts == NULL){
+        return SORTER_ERROR_NO_POINTER;
     }
+    for (int i = 0; i <= stringnumber; i++){
+        printf("%s\n", stringshifts[i]);
+    }
+    return SORTER_ERROR_OK;
 }
 
 char* from_alpha_string(char *string)
@@ -62,11 +71,15 @@ char* from_alpha_string(char *string)
     return beginning_string;
 }
 
-void output_beginning (char *text, char *stroki[], int strokinum)
+sorter_error_code output_beginning (char *stringshifts[], int stringnumber)
 {
-    for (int i = 0; i <= strokinum; i++){
-        printf("%s\n", from_alpha_string(stroki[i]));
+    if(stringshifts == NULL){
+        return SORTER_ERROR_NO_POINTER;
     }
+    for (int i = 0; i <= stringnumber; i++){
+        printf("%s\n", from_alpha_string(stringshifts[i]));
+    }
+    return SORTER_ERROR_OK;
 }
 
 long long symbol_in_string(char *text, char sym){
@@ -79,8 +92,11 @@ long long symbol_in_string(char *text, char sym){
     return result;
 }
 
-void reverse_string(char *string)
+sorter_error_code reverse_string(char *string)
 {
+    if (string == NULL){
+        return SORTER_ERROR_NO_POINTER;
+    }
     char *pointer = string;
     while(*pointer != '\0'){
         pointer++;
@@ -91,29 +107,12 @@ void reverse_string(char *string)
         pointer--;
         string++;
     }
+    return SORTER_ERROR_OK;
 }
 
-void reverse_text(char *str[], int strokinum){
+sorter_error_code reverse_text(char *str[], int strokinum){
     for (int i = 0; i <= strokinum; i++){
         reverse_string(str[i]);
-    }
-}
-
-int comparison_bigger(const char *text, char *str, int s1, int s2){
-    char *i1 = &str[s1];
-    char *i2 = &str[s2];
-    while(*i1 != '\n' && *i2 != '\n' && *i1 != '\0' && *i2 != '\0'){
-       if(*i1 != *i2){
-            return *i1 - *i2;
-       }
-        i1++;
-        i2++;
-    }
-    if (*i1 == '\n' || *i1 == '\0'){
-        return -1;
-    }
-    else{
-        return 1;
     }
 }
 
@@ -138,25 +137,6 @@ int comparison_bigger_beginning(char *string1, char *string2)
     }
 }
 
-int comparison_less (char *text, char *str, int s1, int s2)
-{
-    int i1=str[s1];
-    int i2=str[s2];
-    while(text[i1] != '\n' && text[i2] != '\n' && text[i1] != '\0' && text[i2] != '\0'){
-       if(text[i1] != text[i2]){
-            return text[i2] - text[i1];
-       }
-        i1++;
-        i2++;
-    }
-    if (text[i1] == '\n' || text[i1] == '\0'){
-        return 1;
-    }
-    else{
-        return -1;
-    }
-}
-
 int comparison_less_beginning(char *string1, char *string2)
 {
     char *beginningstring1 = from_alpha_string(string1);
@@ -178,18 +158,7 @@ int comparison_less_beginning(char *string1, char *string2)
     }
 }
 
-void bubble_sort(char *text, char *m, int n)
-{
-    for (int i = 0 ; i < n; i++){
-        for (int j = 0; j < n-1; j++){
-            if (comparison_bigger(text, m, j, j+1)>0){
-                swap(m + j, m + j + 1);
-            }
-        }
-    }
-}
-
-void bubble_sort_beginning(char *stringshifts[], int numberofstrings)
+sorter_error_code bubble_sort_beginning(char *stringshifts[], int numberofstrings)
 {
     for (int i = 0; i <= numberofstrings; i++){
         for (int j = 0; j < numberofstrings; j++){
@@ -201,3 +170,51 @@ void bubble_sort_beginning(char *stringshifts[], int numberofstrings)
         }
     }
 }
+
+/*sorter_error_code bubble_sort(char *text, char *stringshifts[], int stringnumber)
+{
+    for (int i = 0 ; i < stringnumber; i++){
+        for (int j = 0; j < stringnumber - 1; j++){
+            if (comparison_bigger(stringshifts[j], stringshifts[j+1]) > 0){
+                swap(stringshifts + j, stringshifts + j + 1);
+            }
+        }
+    }
+}*/
+
+/*int comparison_less (char *text, char *str, int s1, int s2)
+{
+    int i1=str[s1];
+    int i2=str[s2];
+    while(text[i1] != '\n' && text[i2] != '\n' && text[i1] != '\0' && text[i2] != '\0'){
+       if(text[i1] != text[i2]){
+            return text[i2] - text[i1];
+       }
+        i1++;
+        i2++;
+    }
+    if (text[i1] == '\n' || text[i1] == '\0'){
+        return 1;
+    }
+    else{
+        return -1;
+    }
+}*/
+
+/*int comparison_bigger(char *string1, char *string2){
+    char *i1 = string1;
+    char *i2 = string2;
+    while(*i1 != '\n' && *i2 != '\n' && *i1 != '\0' && *i2 != '\0'){
+       if(*i1 != *i2){
+            return *i1 - *i2;
+       }
+        i1++;
+        i2++;
+    }
+    if (*i1 == '\n' || *i1 == '\0'){
+        return -1;
+    }
+    else{
+        return 1;
+    }
+}*/

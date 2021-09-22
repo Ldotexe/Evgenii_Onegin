@@ -1,5 +1,10 @@
 #include "FILE_working.h"
 
+const char* file_errors_value[] = {
+    "FILE_ERROR_OK",
+    "FILE_ERROR_NO_MEMORY"
+};
+
 long long filesizeoftext(FILE* readfile){
     fseek(readfile, 0, SEEK_END);
     long long filesize = ftell(readfile);

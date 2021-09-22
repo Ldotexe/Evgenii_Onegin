@@ -11,6 +11,8 @@ enum file_working_code{
     FILE_ERROR_NO_MEMORY
 };
 
+extern const char* file_errors_value[];
+
 /**
  * @param Pointer, where text will be, size of file in bytes, File with text,
  * Reading text from file and putting it to the array of char with the memory from calloc from allocate_memory
