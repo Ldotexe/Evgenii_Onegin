@@ -10,18 +10,6 @@
 #define NEWLINE '\n'
 #define NEXTLINE printf("\n");
 
-/*struct strings{
-    char* pointer;
-    int length;
-};
-
-struct strings_in_line{
-    char* text;
-    struct strings* string;
-};*/
-void strings_in_line_ctor(struct strings_in_line *line, FILE *readfile, long long filesize);
-void strings_in_line_dtor(struct strings_in_line *line);
-
 //-------------------------------------------------------------------------------------------------------------------
 
 int main(int argc, const char** argv)

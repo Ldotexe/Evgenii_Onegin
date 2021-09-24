@@ -11,17 +11,9 @@ enum file_working_code{
     FILE_ERROR_NO_MEMORY
 };
 
-/*struct strings{
-    char *pointer;
-    int length;
-};
-
-struct strings_in_line{
-    char* text;
-    struct strings* string;
-};*/
-
 extern const char* file_errors_value[];
+
+long long filesizeoftext(FILE*);
 
 /**
  * @param Pointer, where text will be, size of file in bytes, File with text,

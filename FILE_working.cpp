@@ -12,17 +12,6 @@ long long filesizeoftext(FILE* readfile){
     return filesize;
 }
 
-file_working_code text_read(char** text, long long filesize, FILE* readfile){
-    char *p = 0;
-    if (allocate_memory(filesize + 1, &p) != FILE_ERROR_OK){
-        return FILE_ERROR_NO_MEMORY;
-    }
-    *text = p;
-    fread(*text, filesize, 1, readfile);
-    (*text)[filesize] = '\0';
-    return FILE_ERROR_OK;
-}
-
 file_working_code allocate_memory (long long number_of_bytes, char** buffer){
     *buffer = (char*) calloc(number_of_bytes, sizeof(char));
     if (*buffer == NULL){
@@ -36,5 +25,16 @@ file_working_code allocate_memory_mas (long long number_of_bytes, char*** buffer
     if (*buffer == NULL){
         return FILE_ERROR_NO_MEMORY;
     }
+    return FILE_ERROR_OK;
+}
+
+file_working_code text_read(char** text, long long filesize, FILE* readfile){
+    char *p = 0;
+    if (allocate_memory(filesize + 1, &p) != FILE_ERROR_OK){
+        return FILE_ERROR_NO_MEMORY;
+    }
+    *text = p;
+    fread(*text, filesize, 1, readfile);
+    (*text)[filesize] = '\0';
     return FILE_ERROR_OK;
 }
