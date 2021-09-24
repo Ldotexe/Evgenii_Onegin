@@ -7,22 +7,30 @@
 #include "FILE_working.h"
 #include "string_sorting_comparator_test.h"
 
-const char* errors_value[] = {
-    "FILE_ERROR_OK",
-    "FILE_ERROR_NO_MEMORY"
-};
-
 #define NEWLINE '\n'
 #define NEXTLINE printf("\n");
+
+/*struct strings{
+    char* pointer;
+    int length;
+};
+
+struct strings_in_line{
+    char* text;
+    struct strings* string;
+};*/
+void strings_in_line_ctor(struct strings_in_line *line, FILE *readfile, long long filesize);
+void strings_in_line_dtor(struct strings_in_line *line);
 
 //-------------------------------------------------------------------------------------------------------------------
 
 int main(int argc, const char** argv)
 {
+    struct strings_in_line line;
     for (int argc_counter = 0; argc_counter < argc; argc_counter++){
         printf("argv[%d] = %s\n", argc_counter, argv[argc_counter]);
     }
-    if(argv[1] == "Test!"){
+    if(argv[1] == "Test!"){ //strcmp
         printf("%s\n", test_comparator() == 0 ? "Test passed: No" : "Test passed: Yes");
         if (test_comparator() == 0){
             return 0;
@@ -30,6 +38,7 @@ int main(int argc, const char** argv)
     }
 
     FILE *readfile = fopen(/*argv[1]*/ "Gamlet.test.txt", "r");
+    //FILE *answer = fopen(/*argv[1]*/ "answer.txt", "w");
     if (readfile == NULL){
         printf("There is no text to work with it\n");
         return 0;
@@ -37,45 +46,30 @@ int main(int argc, const char** argv)
 
     long long filesize = filesizeoftext(readfile);
 
-    char *text = 0;
-
     file_working_code code_error = FILE_ERROR_OK;
 
-    code_error = text_read(&text, filesize, readfile);
-    if (code_error != FILE_ERROR_OK){
-        printf("%s\n", errors_value[code_error]);
-        return 0;
-    }
+    strings_in_line_ctor(&line, readfile, filesize);
 
-    long long stringnumber = symbol_in_string(text, NEWLINE);
-
-    char **stringshifts = 0;
-
-    code_error = string_shifts_filling(text, &stringshifts, stringnumber);
-    if (code_error != FILE_ERROR_OK){
-        printf("%s\n", errors_value[code_error]);
-        return 0;
-    }
-
-    output(text, stringshifts, stringnumber);
+    output(line);
     NEXTLINE
 
-    bubble_sort_beginning(stringshifts, stringnumber);
-    output_beginning(text, stringshifts, stringnumber);
+    //quick_sort(&line, 0, line.number_of_strings, BIGGER_BEGINNING);
+    qsort(line.string, line.number_of_strings + 1, sizeof(struct strings), comparator_bigger_beginning);
+    output_beginning(line);
     NEXTLINE
 
-    reverse_text(stringshifts, stringnumber);
-    bubble_sort_beginning(stringshifts, stringnumber);
-    reverse_text(stringshifts, stringnumber);
-    output_beginning(text, stringshifts, stringnumber);
+    //quick_sort(&line, 0, line.number_of_strings, BACK_BIGGER_BEGINNING);
+    qsort(line.string, line.number_of_strings + 1, sizeof(struct strings), comparator_back_bigger_beginning);
+    output_beginning(line);
     NEXTLINE
 
-    quick_sort(stringshifts, 0, stringnumber);
-    output(text, stringshifts, stringnumber);
+    //quick_sort(&line, 0, line.number_of_strings, POINTERS);
+    qsort(line.string, line.number_of_strings + 1, sizeof(struct strings), comparator_pointers);
+    output(line);
+    NEXTLINE
 
-    free(text);
-    free(stringshifts);
-
+    strings_in_line_dtor(&line);
+    //fclose(/*argv[1]*/ "answer.txt", "w");
     return 0;
 }
 

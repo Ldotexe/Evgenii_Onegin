@@ -11,6 +11,18 @@ enum file_working_code{
     FILE_ERROR_NO_MEMORY
 };
 
+/*struct strings{
+    char *pointer;
+    int length;
+};
+
+struct strings_in_line{
+    char* text;
+    struct strings* string;
+};*/
+
+extern const char* file_errors_value[];
+
 /**
  * @param Pointer, where text will be, size of file in bytes, File with text,
  * Reading text from file and putting it to the array of char with the memory from calloc from allocate_memory
@@ -33,7 +45,5 @@ file_working_code allocate_memory(long long number_of_bytes, char** buffer);
 */
 
 file_working_code allocate_memory_mas(long long number_of_bytes, char*** buffer);
-
-file_working_code string_shifts_filling(char *text, char ***stringshifts, long long strokinum);
 
 #endif// FILE_WORKING_H_INCLUDE
