@@ -8,4 +8,6 @@
 
 char test_comparator();
 
+void print_full_char(char* text);
+
 #endif// FILE_WORKING_H_INCLUDED

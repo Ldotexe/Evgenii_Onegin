@@ -1,20 +1,88 @@
+#include <cstdlib> // calloc
+
 #ifndef STRING_SORTING_H_INCLUDED
 #define STRING_SORTING_H_INCLUDED
 
 enum sorter_error_code{
     SORTER_ERROR_OK,
-    SORTER_ERROR_NO_MEMORY
+    SORTER_ERROR_NO_POINTER,
+    SORTER_ERROR_NO_MEMORY,
+    SORTER_ERROR_NO_FILE
+};
+
+enum comparator_mode{
+    BIGGER_BEGINNING,
+    LESS_BEGINNING,
+    BACK_BIGGER_BEGINNING,
+    POINTERS
+};
+
+extern const char* sorter_errors_value[];
+
+struct strings{
+    char *pointer;
+    int length;
+};
+
+struct strings_in_line{
+    char* text;
+    long long number_of_strings;
+    struct strings* string;
 };
 
 #define CREATE_SWAP_DECLARATION(type) void swap(type * first, type * second)
 
-/**
- * Quick sort algorithm for strings sorting
- * O(nlogn)
- * @param text - buffer start pointer
- */
+long long symbol_in_string(char *text, char symbol);
 
-void quick_sortalf (char *text, char *m, int l, int r);
+sorter_error_code allocate_memory_strings (long long number_of_bytes, strings_in_line *line);
+
+
+sorter_error_code strings_in_line_ctor(struct strings_in_line *line, FILE *readfile, long long filesize);
+
+sorter_error_code strings_in_line_ctor(struct strings_in_line *line, char* filename);
+
+sorter_error_code strings_in_line_dtor(struct strings_in_line *line);
+
+sorter_error_code string_pointers_filling(struct strings_in_line *line);
+
+sorter_error_code output(struct strings_in_line line);
+
+
+char* from_alpha_string(char *string);
+
+
+char* from_back_alpha_string(struct strings string);
+
+sorter_error_code output_beginning (struct strings_in_line line);
+
+int comparator(struct strings string1, struct strings string2,  comparator_mode mode);
+
+int comparator_bigger_beginning(const void* string1,const void* string2);
+
+int comparator_back_bigger_beginning(const void* string1,const void* string2);
+
+int comparator_pointers(const void* string1,const void* string2);
+
+sorter_error_code quick_sort(struct strings_in_line *line, long long leftpointer, long long rightpointer, comparator_mode mode);
+
+sorter_error_code qsort(struct strings_in_line line, int(*comparator)(const void*, const void*));
+
+sorter_error_code quick_sort(struct strings_in_line *line, comparator_mode mode);
+
+/** This functions are not used in the solution of the "Evgenii Onegin" problem */
+
+
+
+sorter_error_code reverse_string(char *string);
+
+/**
+ * Algorithm for reversing text string by string
+ * Uses the viceversa_string algorithm for each string
+*/
+
+sorter_error_code reverse_text(char *strings[], int stringnumber);
+
+
 
 /**
  * Function that finds the first symbol which is a letter
@@ -22,34 +90,11 @@ void quick_sortalf (char *text, char *m, int l, int r);
  * until meets letter
 */
 
-char* from_alpha_string(char *string);
-
-
-/**
- * Comparator for strings
- * compares symbol by symbol until meet different or run out of symbols in one of strings
- * Return positive value if first sting is bigger than second else negative (including the case when they are equivalent)
-*/
-
-int comparison_bigger(const char *text, char str, int s1, int s2);
-
-
-/**
- * Comparator for strings
- * compares symbol by symbol until meet different or run out of symbols in one of strings
- * Return positive value if first sting is less than second else negative (including the case when they are equivalent)
-*/
-
-int comparison_less(char *text, char str);
-
-
 /**
  * Comparator for strings from the first letter for each string
  * compares symbol by symbol until meet different or run out of symbols in one of strings
  * Return positive value if first sting is bigger than second else negative (including the case when they are equivalent)
 */
-
-int comparison_bigger_beginning(char *text, char *str);
 
 
 /**
@@ -57,9 +102,6 @@ int comparison_bigger_beginning(char *text, char *str);
  * compares symbol by symbol until meet different or run out of symbols in one of strings
  * Return positive value if first sting is less than second else negative (including the case when they are equivalent)
 */
-
-int comparison_less_beginning(char *text, char *str);
-
 
 /**
  * Outputs the text string by string
@@ -67,60 +109,17 @@ int comparison_less_beginning(char *text, char *str);
  * And integer strokinum to execute the exact number of operations
 */
 
-void output(char *text, char* stroki[], int strokinum);
-
-
 /**
  * Outputs the text string by string but from the first symbol of latter for each string
  * Uses the array of shifts of symbols '\n' to withdraw them in specific order
  * And integer strokinum to execute the exact number of operations
 */
 
-void output_beginning (char *text, char *stroki[], int strokinum);
-
 
 /**
- * Ordinary algorithm of bubble sorting but for strings
- * Uses the strings comparator "comparison_bigger"
- * O(n^2{*m})
-*/
-
-void bubble_sort(char *text, char *m, int n);
-
-/**
- * Algorithm for reversing string from the first symbol to the '\n'
- * O(n)
-*/
-
-void bubble_sort_beginning(char *stringshifts[], int numberofstrings);
-
-void reverse_string(char *str);
-
-/**
- * Algorithm for reversing text string by string
- * Uses the viceversa_string algorithm for each string
-*/
-
-void reverse_text(char *str[], int strokinum);
-
-
-/**
- * Not working!!!
- * Basic quick_sort algorithm but for strings
- * Uses the string comparators "comparison_bigger" and "comparison_less"
-*/
-
-void quick_sort (char *m[], int l, int r);
-
-
-/**
+ *
  * Finds the number of some symbol in a char array
 */
-
-long long symbol_in_string(char *text, char sym);
-
-long long filesizeoftext(FILE*);
-
 
 /**
  * Swap using the tmp
